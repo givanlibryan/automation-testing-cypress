@@ -2,6 +2,8 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.6",
+    "@shelex/cypress-allure-plugin": "^2.41.2",
+    "allure-commandline": "^2.34.1",
     "cypress": "^15.2.0",
     "esbuild": "^0.25.10"
   },
@@ -180,8 +182,13 @@
     "cy:open": "cypress open",
     "cy:open:sauce": "cypress open --config baseUrl=https://www.saucedemo.com",
     "cy:open:parabank": "cypress open --config baseUrl=https://parabank.parasoft.com",
-    "cy:run": "cypress run --spec '**/*.feature'",
-    "cy:run:sauce": "cypress run --config baseUrl=https://www.saucedemo.com --spec '**/*.feature'"
+    "cy:run": "cypress run --browser chrome --spec '**/*.feature'",
+    "cy:run:sauce": "cypress run --browser chrome --config baseUrl=https://www.saucedemo.com --spec '**/*.feature'",
+    "cy:run:parabank": "cypress run --browser chrome --config baseUrl=https://parabank.parasoft.com --spec '**/*.feature'",
+    "allure:clean": "rimraf allure-results allure-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "test:report": "npm run cy:run && npm run allure:generate && npm run allure:open"
   },
   "keywords": [],
   "author": "",

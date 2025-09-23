@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 downloads/
+allure-report/
+allure-results/
+videos/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
