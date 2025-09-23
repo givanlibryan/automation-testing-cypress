@@ -1,23 +1,27 @@
-const { Given, When, Then } = require('@badeball/cypress-cucumber-preprocessor');
-
-import { visitSauce, login } from '../../common/commonAction';
-import loginPage from './pom/loginPage';
-
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import * as common from '../../common/commonAction.js';
 
 Given('user accesses SauceDemo on desktop', () => {
   cy.viewport('macbook-16');
-  visitSauce();
+  common.visitSauce();
 });
 
 When('user logs in as {string}', (type) => {
-  login(type); // STANDARD | LOCKED | PROBLEM | PERF | ERROR | VISUAL
+  common.loginOnly(type);  
 });
 
-Then('Products page should be visible', () => {
-  cy.url().should('include', '/inventory.html');
-  cy.get('.title').should('have.text', 'Products');
+Then('login should succeed', () => {
+  common.assertLoggedIn();
 });
 
-Then('error banner should contain {string}', (msg) => {
-  loginPage.errorBanner().should('contain', msg);
+Then('login should fail with message containing {string}', (msg) => {
+  common.assertLoginErrorContains(msg);
+});
+
+Then('error banner should contain {string}', (text) => {
+  cy.get('[data-test="error"], .error-message-container, [data-test="error-message-container"]')
+    .should('be.visible')
+    .invoke('text')
+    .then(t => t.trim().toLowerCase())
+    .should('contain', text.toLowerCase());
 });
